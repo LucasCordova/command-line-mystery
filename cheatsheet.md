@@ -9,16 +9,61 @@ You have a prompt, and you can type in a command and hit 'Enter' to execute it. 
 
 This command will create a file called `newfile.txt`.
 
-How to access the command line
-------------------------------
+Setting Up Your Environment with Docker
+----------------------------------------
 
-**Mac OS X:** Go to /Applications/Utilities and click on "Terminal" or search for "Terminal" in Spotlight.
+For this assignment, you will work inside a Docker container so everyone has the same tools and environment. Follow these steps:
 
-**Desktop Linux:** You can search for the "Terminal" application from the Dash.  Let's be honest, though, if you're running Linux, you probably don't need this tutorial.
+### 1. Install Docker Desktop
 
-**Windows:** Windows is a bit of a special case.  If you go to the Start Menu and click "Run", and then type "cmd" and hit enter, it will open the Windows version of the command line.  Unfortunately, the Windows version of the command line kind of has its own system, so for the purposes of following these examples, you'll want to install Cygwin, which will allow you to mimic a Linux-style command line:
+Download and install Docker Desktop from [docker.com](https://www.docker.com). Launch it and make sure it's running (you'll see a whale icon in your system tray or menu bar).
 
-http://www.cygwin.com/
+### 2. Pull the Course Docker Image
+
+Open your terminal (Terminal on Mac, Command Prompt or PowerShell on Windows) and run:
+
+	docker pull lucascordova/dataeng
+
+### 3. Clone or Download This Repository
+
+Clone this repository into your `Downloads/data` folder (or wherever you keep your mounted data directory):
+
+	cd ~/Downloads/data
+	git clone https://github.com/LucasCordova/command-line-mystery.git
+
+If you don't have `git` installed, you can download the repository as a zip file from GitHub and unzip it into your `data` folder.
+
+### 4. Run the Docker Container
+
+Start the container and mount your `data` folder so the mystery files are accessible inside:
+
+	docker run --rm -it -v ~/Downloads/data:/data lucascordova/dataeng
+
+On Windows (PowerShell):
+
+	docker run --rm -it -v ${HOME}\Downloads\data:/data lucascordova/dataeng
+
+You are now inside the container. Your `data` folder is mounted at `/data`.
+
+### 5. Navigate to the Mystery
+
+Inside the container, navigate to the mystery files:
+
+	cd /data/command-line-mystery
+
+Verify the files are there:
+
+	ls
+
+You should see files like `instructions`, `mystery`, `cheatsheet.md`, `hint1`, etc.
+
+### 6. Exiting the Container
+
+When you're done, type:
+
+	exit
+
+The container is removed (due to the `--rm` flag), but all your files in the mounted `data` directory are safe on your computer. Next time you want to work, just run the `docker run` command again.
 
 A little more detail
 --------------------
@@ -350,4 +395,3 @@ Example:
 	(Save everything starting with line 8 to a temporary file, then print the first 5 lines of that, then delete the temporary file)
 
 ---
-
